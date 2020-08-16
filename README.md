@@ -1,5 +1,5 @@
 # Gexpress
-1. Install mediapipe on Ubuntu 18.04
+1. Install mediapipe on Ubuntu 18.04.  Make sure to install all related packages (Bazel, OpenCV, OpenGL...)
 2. Copy all files in **mediapipe/mediapipe/examples/desktop/** of this repository into the **same path** of mediapipe project folder.
 3. Build Mediapipe multiple hand landmark GPU with output:
 ```
