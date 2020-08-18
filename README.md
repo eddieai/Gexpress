@@ -11,3 +11,7 @@ bazel build -c opt --copt -DMESA_EGL_NO_X11_HEADERS mediapipe/examples/desktop/m
 ```
 5. Landmarks are exported in **mediapipe/output.txt** in real time
 6. Use **load_mediapipe_out.py** load read output.txt into Python in real time
+
+Update：
+Follow the tutorial to install python wrapper of hand tracking model: https://github.com/metalwhale/hand_tracking
+To extract the images of hand gesture, run get_hand_keypoints.py, example of dataset coming from https://www.kaggle.com/muhammadkhalid/sign-language-for-numbers
