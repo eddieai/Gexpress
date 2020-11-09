@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<button type="button" onclick="play();">play</button>
+<audio id="audioRender"></audio>
+
+<audio controls>
+  <source src="../audio/wow.mp3" type="audio/mpeg">
+Your browser does not support the audio element.
+</audio>
+
+<script>
+var audsrc = '../audio/wow.mp3'
+function play(){
+    var audRender = document.getElementById("audioRender");
+    audRender.setAttribute('src', audsrc);
+    audRender.play();
+}
+var http = require(‘http’),
+fs = require(‘fs’);
+
+fs.readFile(’./avatar.jpg’,‘binary’,function(err, file) {
+	if (err) {
+	  console.log(err);
+	  return;
+	}else{
+	  http.createServer(function(req, res) {
+	    res.writeHead(200, {‘Content-Type’: ‘image/jpeg’});
+	    res.write(file,‘binary’);
+	    res.end();
+	    return;
+	  }).listen(8888);
+	}
+});
+
+</script>
+
+</body>
+</html>

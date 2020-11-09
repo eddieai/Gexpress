@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta charset="UTF-8">
+	<title>ICC_Demonstration</title>
+	<!-- <link rel="stylesheet" href="D:/99-py/flask/templates/demo.css"> -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script>
+	function GETInWebRefresh(url, id) {
+        $.ajax({
+            type: "GET",
+            url: url,
+            dataType: "html",   // 期待后端返回数据的类型
+            success: function (data) {//返回数据根据结果进行相应的处理
+                $(id).html(data);
+            },
+            error: function () {
+                $(id).html("no_data_found");
+            }
+        });
+    }
+      </script>
+<style>
+.overlays {
+	position:absolute;
+	opacity:1;
+}
+body {
+    font-family: Arial, sans-serif;
+    //font-weight: bold;
+}
+</style>
+  </head>
+  <body>
+    <h1>G'Express Demo</h1>
+<!--    <a href="javascript:void(0);" onclick="GETInWebRefresh('/update')"><i class="fa fa-table fa-fw"></i>refresh</a>-->
+<!--	<button type="button" onclick="showImage();">Click</button><br>-->
+	<img id="streaming" alt="video_feed" width="640" height="480" src="{{ url_for('video_feed') }}"><br>
+	<img src="" id="renderImage" />
+    <div class="update" id="param_class">{{ param_class }}</div>
+    <div class="update" id="param_x">{{ param_x }}</div>
+    <div class="update" id="param_y">{{ param_y }}</div>
+    <div class="update" id="param_w">{{ param_w }}</div>
+    <button type="button" onclick="play();">play</button>
+    <audio id="renderAudio"></audio>
+
+  </body>
+</html>
+<script>
+	var xvalue = 0
+	var yvalue = 0
+	var wvalue = 0
+	var hvalue = 0
+	var classval = 0
+
+	//refresh every 1s for coordiates and class
+	$(document).ready(function() {
+        setInterval("GETInWebRefresh('/updatex', '#param_x')",500);
+        setInterval("GETInWebRefresh('/updatey', '#param_y')",500);
+        setInterval("GETInWebRefresh('/updatew', '#param_w')",500);
+        setInterval("GETInWebRefresh('/updateclass', '#param_class')",500);
+    });
+
+    $(document).ready(function() { setInterval("showImage()",500); });
+    $(document).ready(function() { setInterval("playAudio()",2000);});
+
+    //function play audio
+    var audRender = document.getElementById("renderAudio");
+    function playAudio(){
+        classval = parseInt(document.getElementById("param_class").innerHTML);
+
+        if (classval == 1) {
+            audRender.setAttribute('src', '');
+            audRender.pause();
+		} else if (classval == 2) {
+            audRender.setAttribute('src', '');
+            audRender.pause();
+		} else if (classval == 20) {
+            audRender.setAttribute('src', "static/audios/wow.mp3");
+            audRender.play();
+		} else {
+            audRender.setAttribute('src', '');
+            audRender.pause();
+        }
+
+        audRender.play();
+    }
+
+    //function show render image
+	var imgRender = document.getElementById("renderImage");
+
+	function showImage() {
+		var image = document.getElementById('streaming');
+		margin = 20;
+		l = image.offsetLeft;
+		t = image.offsetTop;
+		w = image.width;
+		h = image.height;
+
+		// Location inside the image
+		xvalue = parseInt(document.getElementById("param_x").innerHTML);
+		yvalue = parseInt(document.getElementById("param_y").innerHTML);
+		wvalue = parseInt(document.getElementById("param_w").innerHTML);
+		classval = parseInt(document.getElementById("param_class").innerHTML);
+		l += xvalue;
+		t += yvalue;
+		var newImage = document.getElementById("renderImage");
+		newImage.setAttribute('class', 'overlays');
+
+        // dynamique image size
+        var diag = Math.sqrt( newImage.width * newImage.width + newImage.height * newImage.height)
+        var ratio = wvalue / diag
+		newImage.style.left = l - (newImage.width * ratio /2 ) + "px";
+		newImage.style.top = t - (newImage.height * ratio /2 ) + "px";
+		newImage.style.width = newImage.width * ratio + "px";
+		newImage.style.height = newImage.height * ratio + "px";
+
+		// map gesture classification
+		if (classval == 23) { //Stop Sign
+		    newImage.setAttribute('src', 'static/images/peggapig.png');  newImage.style.visibility = "visible";
+		} else if (classval == 2) { //Swiping Down
+		    newImage.setAttribute('src', 'static/images/snowing.gif');   newImage.style.visibility = "visible";
+		    newImage.style.width = w/2 + "px";
+		    newImage.style.height = h/2 + "px";
+		} else if (classval == 20) {
+		    newImage.setAttribute('src', 'static/images/thumbup.gif');   newImage.style.visibility = "visible";
+		} else if (classval == 16 || classval == 18) {
+		    newImage.setAttribute('src', 'static/images/heart.png');     newImage.style.visibility = "visible";
+        } else {
+		    newImage.setAttribute('src', '');                            newImage.style.visibility = "hidden";
+        }
+
+		document.body.appendChild(newImage);
+		imgRender.style.display = "inline";
+		setTimeout(function() {imgRender.style.display = "none";},5000);
+
+	}
+  </script>
+

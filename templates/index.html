@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <title>Video Streaming Demonstration</title>
+    <meta charset="UTF-8">
+  </head>
+  <body>
+    <h1>Video Streaming Demo</h1>
+	<p id="param_x">{{ param_x }}</p>
+	<p id="param_y">{{ param_y }}</p>
+	<p id="param_class">{{ param_class }}</p>
+
+
+    <img src="{{ url_for('video_feed') }}">
+
+	<script>
+<!--        ydemo = document.getElementById('demo');-->
+
+<!--        ws = new WebSocket("wss://echo.websocket.org")-->
+<!--        ws.onmessage = function(event) {ydemo.innerHTML = event.data};-->
+
+<!--        simulate_update = function() {ws.send(Number(ydemo.innerHTML) + 1)};-->
+<!--        ws.onopen = function(event) {setInterval(simulate_update, 2000)};-->
+
+
+	</script>
+  </body>
+</html>

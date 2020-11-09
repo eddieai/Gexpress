@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta charset="UTF-8">
+	<title>ICC_Demonstration</title>
+	<!-- <link rel="stylesheet" href="D:/99-py/flask/templates/demo.css"> -->
+<!-- <style> -->
+<!-- body { margin: 0; } -->
+<!-- canvas { display: block; } -->
+
+<!-- .overlays { -->
+	<!-- position:absolute; -->
+	<!-- opacity:0.6; -->
+<!-- } -->
+
+<!-- </style> -->
+  </head>
+  <body>
+    <h1>G'Express Demo</h1>
+	<!-- <button type="button" onclick="showImage();">Click</button> -->
+	<!-- <br> -->
+	<!-- <img id="streaming" alt="video_feed" width="640" height="480" src="{{ url_for('video_feed') }}"> -->
+	<!-- <br> -->
+	<!-- <img src="" id="renderImage" /> -->
+	
+	<script src="https://cdn.bootcss.com/three.js/r83/three.js"></script>
+	<script>
+		var scene = new THREE.Scene();
+		var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+
+		var renderer = new THREE.WebGLRenderer();
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		document.body.appendChild( renderer.domElement );
+
+		var geometry = new THREE.BoxGeometry( 1, 1, 1 );
+		var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+		var cube = new THREE.Mesh( geometry, material );
+		scene.add( cube );
+
+		camera.position.z = 5;
+
+		var render = function () {
+			requestAnimationFrame( render );
+
+			cube.rotation.x += 0.1;
+			cube.rotation.y += 0.1;
+
+			renderer.render(scene, camera);
+		};
+
+		render();
+  </script>
+  </body>
+</html>
